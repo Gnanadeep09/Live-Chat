@@ -22,7 +22,8 @@
         </div>
         <script>
             var client_id = Date.now();
-            var ws = new WebSocket(`ws://${window.location.host}/ws/${client_id}`);
+            var protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+            var ws = new WebSocket(`${protocol}${window.location.host}/ws/${client_id}`);
             ws.onmessage = function(event) {
                 var messages = document.getElementById('messages');
                 var message = document.createElement('li');
