@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>FastAPI Chatroom</title>
+        <title>Live-Chat-Room</title>
         <style>
             body { font-family: sans-serif; background: #f4f4f9; display: flex; justify-content: center; padding: 50px; }
             .chat-container { width: 400px; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); overflow: hidden; }
@@ -19,24 +19,27 @@
         <div class="chat-container">
             <div id="login-screen">
                 <h3>Enter Your Name</h3>
-                <div class="input-area">
+                <form onsubmit="handleLogin(event)" class="input-area">
                     <input type="text" id="usernameInput" placeholder="Username..." autocomplete="off"/>
-                    <button onclick="startChat()">Join</button>
-                </div>
+                    <button type="submit">Join</button>
+                </form>
             </div>
             <div id="chat-screen">
                 <ul id="messages"></ul>
-                <div class="input-area">
+                <form onsubmit="handleSend(event)" class="input-area">
                     <input type="text" id="messageText" placeholder="Type a message..." autocomplete="off"/>
-                    <button onclick="sendMessage()">Send</button>
-                </div>
+                    <button type="submit">Send</button>
+                </form>
             </div>
         </div>
         <script>
             var ws;
-            function startChat() {
+            var currentUsername = "";
+            function handleLogin(event) {
+                event.preventDefault();
                 var username = document.getElementById("usernameInput").value.trim();
                 if (!username) return;
+                currentUsername = username;
                 document.getElementById("login-screen").style.display = "none";
                 document.getElementById("chat-screen").style.display = "block";
                 var protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
@@ -50,19 +53,14 @@
                     messages.scrollTop = messages.scrollHeight;
                 };
             }
-            function sendMessage() {
+            function handleSend(event) {
+                event.preventDefault();
                 var input = document.getElementById("messageText");
                 if (input.value.trim() !== "" && ws) {
                     ws.send(input.value);
                     input.value = '';
                 }
             }
-            document.getElementById("usernameInput").addEventListener("keypress", function(event) {
-                if (event.key === "Enter") startChat();
-            });
-            document.getElementById("messageText").addEventListener("keypress", function(event) {
-                if (event.key === "Enter") sendMessage();
-            });
         </script>
     </body>
 </html>
