@@ -31,4 +31,4 @@ uvicorn main:app --reload
 
 * `database.py`: Handles connection pooling, thread routing configuration, and ORM declarations.
 * `main.py`: Coordinates CORS handling, active connection manager classes, and stateful socket operations.
-* `index.html`: Manages DOM injection, event tracking for text transmission, and structural layout.
+* `index.html`: Manages DOM injection, event tracking for text transmission, and structural layout...
